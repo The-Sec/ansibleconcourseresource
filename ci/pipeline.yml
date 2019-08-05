@@ -1,5 +1,16 @@
 ---
+resource_types:
+- name: ansible-playbook
+  type: docker-image
+  source:
+    repository: thesec/ansibleconcourseresource
+    tag: latest
+
 resources:
+- name: 1m
+  type: time
+  source: {interval: 1m}
+
 - name: git-concourse-build-docker-image
   type: git
   source:
@@ -14,6 +25,12 @@ resources:
     password: {{docker-hub-password}}
     repository: {{docker-create-concourse-go-image}}
 
+- name: ansible
+  type: ansible-playbook
+  source:
+    debug: true
+    verbose: v
+
 jobs:
 - name: build-docker-image
   public: true
@@ -24,3 +41,9 @@ jobs:
   - put: docker-image
     params:
       build: git-concourse-build-docker-image
+
+- name: test-flight
+  plan:
+  - get: 1m
+    trigger: true
+  - put: ansible      
