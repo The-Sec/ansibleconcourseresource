@@ -10,6 +10,7 @@ exec 1>&2 # redirect all output to stderr for logging
 
 #$(dirname $0)/lib/commands/out.rb $1 <&0
 
-ansible-playbook --version <&0
+>&2 echo $1
 
-printf '{"version":{}}' >&3
+
+ansible-playbook --version <&0
