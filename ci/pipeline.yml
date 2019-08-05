@@ -44,6 +44,7 @@ jobs:
 
 - name: test-flight
   plan:
-  - get: 1m
-    trigger: true
-  - put: ansible      
+  - in_parallel:
+    - get: 1m
+      trigger: true
+  - put: ansible
