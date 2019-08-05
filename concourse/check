@@ -1,2 +1,4 @@
 #!/bin/sh
+>&2 echo '{ "version": { ref: "'
 >&2 echo $BUILD_ID
+<&2 echo '" }}'
