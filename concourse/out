@@ -13,4 +13,4 @@ exec 1>&2 # redirect all output to stderr for logging
 echo $1 <&0
 ansible-playbook --version <&0
 
-printf '{version: {}}'
+printf '{version: {ref:{}}}'
