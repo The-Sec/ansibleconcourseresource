@@ -39,12 +39,15 @@ jobs:
   - get: git-concourse-build-docker-image
     trigger: true
   - put: docker-image
-    params:
-      build: git-concourse-build-docker-image
+    params: {build: git-concourse-build-docker-image}
 
 - name: test-flight
   plan:
-  - in_parallel:
-    - get: 1m
-      trigger: true
+  - get: docker-image
+    passed: [build-docker-image]
+    trigger: true
+  - get: git-concourse-build-docker-image
+    passed: [build-docker-image]
+  - get: 1m
+    trigger: true
   - put: ansible
